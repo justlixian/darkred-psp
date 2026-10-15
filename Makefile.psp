@@ -1,0 +1,22 @@
+# PSP / PPSSPP build (PSPSDK from https://github.com/pspdev/pspdev)
+#   make -f Makefile.psp          -> EBOOT.PBP
+#   make -f Makefile.psp install  -> (see README) copy EBOOT.PBP + darkred.pak to ms0:/PSP/GAME/DARKRED/
+TARGET = DARKRED
+OBJS = src/main.o src/pak.o src/vm.o src/rt.o src/plat_psp.o
+
+CFLAGS  = -O2 -G0 -Wall -std=gnu11 -Wno-unused-parameter
+ASFLAGS = $(CFLAGS)
+LIBS    = -lpspdebug -lpspdisplay -lpspge -lpspctrl -lpspaudio -lm
+
+BUILD_PRX = 1
+EXTRA_TARGETS   = EBOOT.PBP
+PSP_EBOOT_TITLE = DARKRED
+PSP_EBOOT_ICON  = psp/ICON0.PNG
+PSP_EBOOT_PIC1  = psp/PIC1.PNG
+
+PSPSDK = $(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak
+
+# bundle for easy copying: out/DARKRED/{EBOOT.PBP,darkred.pak}
+bundle: EBOOT.PBP
+	mkdir -p out/DARKRED && cp EBOOT.PBP out/DARKRED/ && cp assets/darkred.pak out/DARKRED/
