@@ -1,4 +1,4 @@
-# Builds the PSP (EBOOT.PBP) and Vita (VPK) versions in the cloud. Nothing to install locally.
+# Builds the PSP version (EBOOT.PBP + a ready-to-open .iso) and the Vita VPK in the cloud. Nothing to install locally.
 # Usage: push this project to a PRIVATE GitHub repo -> Actions tab -> "build" -> download the artifacts.
 name: build
 on:
@@ -15,8 +15,30 @@ jobs:
         run: make -f Makefile.psp bundle
       - uses: actions/upload-artifact@v4
         with:
-          name: DARKRED-PSP          # contains DARKRED/EBOOT.PBP + darkred.pak -> copy folder to PSP/GAME/
+          name: DARKRED-PSP-folder        # EBOOT.PBP + darkred.pak -> copy folder to PSP/GAME/
           path: out/DARKRED
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iso-parts
+          path: out/iso_parts
+
+  iso:
+    needs: psp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: iso-parts
+          path: out/iso_parts
+      - name: Build ISO
+        run: |
+          sudo apt-get update && sudo apt-get install -y genisoimage
+          sh tools/make_iso.sh out/iso_parts DARKRED.iso
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DARKRED-PSP-iso            # open DARKRED.iso directly in PPSSPP
+          path: DARKRED.iso
 
   vita:
     runs-on: ubuntu-latest

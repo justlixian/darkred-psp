@@ -19,4 +19,8 @@ include $(PSPSDK)/lib/build.mak
 
 # bundle for easy copying: out/DARKRED/{EBOOT.PBP,darkred.pak}
 bundle: EBOOT.PBP
-	mkdir -p out/DARKRED && cp EBOOT.PBP out/DARKRED/ && cp assets/darkred.pak out/DARKRED/
+	mkdir -p out/DARKRED out/iso_parts
+	cp EBOOT.PBP out/DARKRED/ && cp assets/darkred.pak out/DARKRED/
+	# parts used by tools/make_iso.sh (disc image)
+	cp $(TARGET).prx out/iso_parts/EBOOT.BIN && cp psp/ICON0.PNG psp/PIC1.PNG assets/darkred.pak out/iso_parts/
+	mksfoex -d MEMSIZE=1 -s DISC_ID=DRKR00001 -s CATEGORY=UG '$(PSP_EBOOT_TITLE)' out/iso_parts/PARAM.SFO || cp PARAM.SFO out/iso_parts/PARAM.SFO

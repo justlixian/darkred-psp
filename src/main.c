@@ -24,6 +24,7 @@ static int load_pak(int argc, char **argv) {
 #ifdef __vita__
         "app0:darkred.pak", "ux0:data/DARKRED/darkred.pak",
 #elif defined(__PSP__)
+        "disc0:/PSP_GAME/USRDIR/darkred.pak",              /* inside the .iso */
         "ms0:/PSP/GAME/DARKRED/darkred.pak", "ms0:/PSP/SAVEDATA/DARKRED/darkred.pak",
 #else
         "assets/darkred.pak",

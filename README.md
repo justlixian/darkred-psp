@@ -40,8 +40,8 @@ Desktop test build: mouse click, or arrow keys + `Z`/Enter/Space, `Esc` quits.
 ### Easiest: let GitHub build it for you (no installs)
 
 Create a **private** GitHub repository, upload this whole folder (including the hidden `.github` folder), then open the
-**Actions** tab > **build** > the latest run, and download the `DARKRED-PSP` (EBOOT.PBP + darkred.pak) and `DARKRED-Vita`
-(VPK) artifacts. Keep the repo private: it contains the converted game data.
+**Actions** tab > **build** > the latest run, and download `DARKRED-PSP-iso` (a single **DARKRED.iso**: open it directly in PPSSPP), `DARKRED-PSP-folder`
+(EBOOT.PBP + darkred.pak) or `DARKRED-Vita` (VPK). Keep the repo private: it contains the converted game data.
 
 ### 0. Convert the game data (any PC with Python 3 + Pillow)
 
